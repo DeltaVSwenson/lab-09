@@ -39,6 +39,10 @@ function handleGetAll(request,response,next) {
     .catch( next );
 }
 
+/**
+ * Get a single model.
+ * @route GET /model
+ */
 function handleGetOne(request,response,next) {
   request.model.get(request.params.id)
     .then( result => response.status(200).json(result[0]) )
