@@ -27,6 +27,18 @@ router.put('/api/v1/:model/:id', handlePut);
 router.delete('/api/v1/:model/:id', handleDelete);
 
 // Route Handlers
+/**
+ * @typedef GetAllResults
+ * @property {integer} count
+ * @property {Array.<object>} results
+ */
+
+/**
+ * Get all records of the model type.
+ * @route GET /api/v1/{model}
+ * @param {string} model.path - Model type
+ * @returns {GetAllResults.model} 200 - Results for this model
+ */
 function handleGetAll(request,response,next) {
   request.model.get()
     .then( data => {
