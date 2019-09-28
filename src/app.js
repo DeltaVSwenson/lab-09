@@ -21,6 +21,8 @@ const swagger = require(`${cwd}/src/api/swagger.js`);
 // Prepare the express app
 const app = express();
 
+swagger(app);
+
 // App Level MW
 app.use(cors());
 app.use(morgan('dev'));
