@@ -12,13 +12,20 @@ describe('Categoies Model', () => {
       .expect(200);
 
   });
+
+  it('returns 404 if you get a missing id', () => {
+    return mockRequest
+      .get('/api/v1/categories/deadbeefdeadbeefdeadbeef')
+      .expect(404);
+  });
+
   it('can use the post method', ()=> {
     return mockRequest
       .post('/api/v1/categories')
       .send({name: 'haha', description: 'hehe'})
       .expect(200);
   });
-  it.only('can get obj from categories', ()=> {
+  it('can get obj from categories', ()=> {
     return mockRequest
       .get('/api/v1/categories')
       .send({name: 'haha', description: 'hehe'})
@@ -46,10 +53,16 @@ describe('Categoies Model', () => {
       .get('/api/v1/categories')
       .then(response =>{
         expect(response.body.count).toBe(2);
+
+        let id = response.body.results[0]._id;
         return mockRequest
-          .delete(`/api/v1/categories/${response.body.results[0]._id}`)
+          .delete(`/api/v1/categories/${id}`)
           .then(response => {
-            expect(response.body.deletedCount).toBe(1);
+            expect(response.body).toHaveProperty('_id', id);
+
+            return mockRequest
+              .get(`/api/v1/categories/${id}`)
+              .expect(404);
           });
       });
   });
